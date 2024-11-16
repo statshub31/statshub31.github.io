@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Para Você</title>
+  </head>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    body {
+      font-family: "Arial", sans-serif;
+      background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+      display: flex; /* Alinha o conteúdo no centro (opcional) */
+      justify-content: center; /* Opcional */
+      align-items: center; /* Opcional */
+      text-align: center;
+    }
+
+    .heart {
+      width: 100px;
+      height: 100px;
+      margin: 20px auto;
+      animation: beat 1s infinite;
+    }
+    .heart img {
+      width: 100%;
+      height: 100%;
+    }
+
+    @keyframes beat {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    .messages {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #ff6f61;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #e55b4c;
+    }
+  </style>
+
+  <style>
+    .frameBackgroundOne {
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .discover {
+      position: fixed;
+      top: 23%;
+      right: 24%;
+      font-size: 35px;
+      font-weight: bold;
+      color: #ffffff;
+      /* border: 1px solid; */
+      padding: 61px 26px;
+      border-radius: 50%;
+      box-shadow: 0px 0px 14px #ffffff;
+    }
+
+    .discover:hover {
+      color: #e031ba;
+      box-shadow: 0px 0px 14px #3169e0;
+    }
+
+    .frame {
+      position: absolute;
+      width: calc(100% - 160px);
+      height: calc(100% - 40px);
+      padding: 20px;
+      top: 0px;
+    }
+
+    .cardList {
+      display: flex;
+      flex-wrap: wrap; /* Permite que os itens quebrem para uma nova linha */
+      justify-content: space-around; /* Espaço ao redor dos itens */
+      align-items: center;
+    }
+
+    .listItem {
+      color: white;
+      text-align: center;
+      align-items: center; /* Centraliza verticalmente o conteúdo */
+    }
+
+    .listItem:hover {
+      color: black; /* Muda a cor ao passar o mouse */
+    }
+
+    .flip-card {
+      flex: 1 1 25%; /* Cada item ocupará 25% da largura do container */
+      background-color: white;
+      width: calc(
+        100% / 7
+      ); /* Garante que a largura seja dividida em 4 colunas */
+      padding: 5px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center; /* Centraliza horizontalmente o conteúdo */
+      height: calc(100vh / 7); /* Altura de cada box para garantir 4 linhas */
+      box-sizing: border-box; /* Garante que padding e border não afetem o tamanho total */
+      background-color: transparent;
+      perspective: 1000px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
+
+    .flip-card-front {
+      background-color: #ffffff;
+      color: black;
+    }
+
+    .flip-card-back {
+      background-color: #8d018d;
+      color: white;
+      transform: rotateY(180deg);
+    }
+
+    #moldure {
+      width: 100%;
+      margin: 0px 20px;
+      height: auto;
+      max-height: 700px;
+      border: 5px solid white;
+      animation: blink 2.5s infinite;
+    }
+
+    #moldure-before {
+      width: 100%;
+      height: 50%;
+      position: absolute;
+      border: 5px solid white;
+      top: -25px;
+      /* left: 130px; */
+      transform: rotate(180deg);
+      animation: blink 2.5s infinite;
+      clip-path: polygon(80% 100%, 100% 65%, 100% 100%);
+    }
+
+    #moldure-content {
+      background-image: radial-gradient(
+        rgb(254 254 254 / 40%),
+        rgb(245 238 238 / 70%)
+      );
+      width: calc(100% - 30px);
+      height: calc(100% - 30px);
+      padding: 15px;
+      overflow: auto;
+      /* display: none; */
+    }
+
+    #moldure-after {
+      width: 100%;
+      height: 50%;
+      position: absolute;
+      border: 5px solid white;
+      bottom: -26px;
+      left: 40px;
+      animation: blink 2.5s infinite;
+      clip-path: polygon(80% 100%, 100% 65%, 100% 100%);
+    }
+
+    @keyframes blink {
+      0% {
+        box-shadow: 1px 0px 5px 0px white;
+      }
+
+      25% {
+        box-shadow: 1px 0px 10px 0px white;
+      }
+
+      50% {
+        box-shadow: 1px 0px 21px 0px white;
+      }
+
+      75% {
+        box-shadow: 1px 0px 15px 0px white;
+      }
+
+      100% {
+        box-shadow: 1px 0px 10px 0px white;
+      }
+    }
+
+    p {
+      color: rgb(0, 0, 0);
+      /* font-family: "Courier"; */
+      /* font-size: 20px; */
+      margin: 10px 0 0 10px;
+      overflow: hidden;
+      position: relative;
+      left: 10px;
+      width: 90%;
+      animation: type 4s steps(60, end);
+    }
+
+    .titulo-principal:after {
+      content: "|";
+      margin-left: 5px;
+      opacity: 1;
+      animation: pisca 0.7s infinite;
+    }
+
+    @keyframes pisca {
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
+
+    #body {
+      margin: auto;
+      display: table;
+      top: 200px;
+      width: 40em;
+      position: relative;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .title {
+      text-align: center;
+      font-family: monospace;
+      font-size: 2em;
+      font-weight: bold;
+      color: white;
+      position: absolute;
+      overflow: hidden;
+      overflow-wrap: break-word;
+    }
+
+    .title1 {
+      width: 50%;
+    }
+
+    .title2 {
+      bottom: 0px;
+      right: 0px;
+      width: 80%;
+    }
+
+    .title3 {
+      width: 80%;
+    }
+  </style>
+
+  <body>
+    <script>
+      function submit(hidden, visible) {
+        const elementoHidden = hidden
+          ? document.querySelector("." + hidden)
+          : null; // Adicione '#' para selecionar pelo ID
+        const elementoVisible = visible
+          ? document.querySelector("." + visible)
+          : null; // Adicione '#' para selecionar pelo ID
+        const buttons = document.querySelectorAll(".buttons");
+
+        if (elementoVisible) {
+          elementoVisible.classList.toggle("hidden");
+        }
+
+        if (elementoHidden) {
+          elementoHidden.classList.toggle("hidden");
+        }
+        buttons.forEach(function (button) {
+          button.classList.add("hidden");
+        });
+      }
+
+      function typeWrite(e) {
+        const elemento = document.querySelector(e);
+        const texto = elemento.innerHTML;
+
+        let hasOpenTag = false;
+        let tmpTag;
+
+        //Limpa o campo
+        elemento.innerHTML = "";
+
+        for (let i = 0, j = texto.length; i < j; i++) {
+          let letra = texto[i];
+
+          if (letra === "<") {
+            tmpTag = letra;
+            hasOpenTag = true;
+            continue;
+          }
+
+          if (hasOpenTag && letra === ">") {
+            letra = tmpTag + letra;
+            hasOpenTag = false;
+          }
+
+          if (hasOpenTag) {
+            tmpTag += letra;
+            continue;
+          }
+
+          setTimeout(() => (elemento.innerHTML += letra), 40 * i);
+        }
+      }
+    </script>
+
+    <section class="step1">
+      <div class="welcome">
+        <h1>Bem-vinda, Eldinha do meu coração!</h1>
+        <p>
+          Criei isso somente para demonstrar o quanto você se tornou especial
+          para mim!
+        </p>
+      </div>
+
+      <div class="heart">
+        <img
+          src="https://img1.picmix.com/output/stamp/thumb/0/2/6/4/1434620_20350.gif"
+        />
+      </div>
+      <div class="messages" hidden>
+        <p>Cada frase aqui é para você...</p>
+        <div id="message-display"></div>
+      </div>
+
+      <button id="playMusic" onclick="submit('step1', 'step2')">Vamos lá??</button>
+      <script>
+        const messages = [
+          "Você é incrível.",
+          "Cada momento ao seu lado é único.",
+          "Você é a razão dos meus sorrisos.",
+        ];
+
+        let index = 0;
+
+        function showNextMessage() {
+          const display = document.getElementById("message-display");
+          if (index < messages.length) {
+            display.innerText = messages[index];
+            index++;
+          } else {
+            display.innerText = "Obrigado por fazer parte da minha vida.";
+          }
+        }
+      </script>
+    </section>
+
+    <section class="step2 hidden">
+      <div class="heart">
+        <img
+          src="https://img1.picmix.com/output/stamp/thumb/0/2/6/4/1434620_20350.gif"
+        />
+      </div>
+      <p id="paragraph2"></p>
+      <p>
+        Lembro de nos encontramos pela primeira vez em 2020, poucos meses em que
+        você havia se ´divorciado´ de um cara que não te valorizou, mesmo tendo
+        o seu coração desde novinha, nos conhecemos por pouco tempo até que
+        perdemos o contato um com o outro.
+      </p>
+
+      <p>
+        Desde então se passaram 04 anos, ambos tivemos experiências, sentimentos
+        e muitas outras coisas novas, mas algo que você não sabe, é que mesmo
+        antes de nós voltarmos a nos falar, eu pensei em voltar o contato com
+        você, mas você ainda estava em um relacionamento. Este ano, após você me
+        encaminhar uma solicitação de amizade no instagram, fiquei muito mais
+        contente do que você podia imaginar, tipo alguém que eu nunca esqueci,
+        se lembrou de mim, porem no primeiro reencontro, percebi que você ainda
+        não estava bem, ainda mais para se envolver com outra pessoa. Desde o
+        primeiro dia em que te vi, percebi que você era alguém que com o seu
+        brilho você transforma as pessoas, com a sua alegria contagiante faz
+        elas rirem, com a sua espontaneidade faz as pessoas se juntarem ao seu
+        redor, você é especial.
+      </p>
+
+      <p>
+        Nosso quinto encontro pessoalmente, foi no dia de inauguração da minha
+        loja, devido a uma certa pessoa, acabei não podendo conversar melhor com
+        você, mas... fiquei extremamente feliz em te rever, você tinha ficado
+        mais alegre e ao mesmo tempo mais madura, esse dia foi especial, não
+        somente pela inauguração da minha loja, mas por você está lá, ali
+        percebi que somente por você está lá, já havia ganhado o meu dia, no
+        entanto, lembro vagamente de você mencionar está conhecendo alguém e ai
+        então fiquei quieto.
+      </p>
+
+      <p>
+        Você passou por pessoas, essas pessoas acabou traindo sua confiança, não
+        a tratou dignamente como a princesa que é, e em todas as vezes após o
+        nosso reencontro que eu via seus storys e percebia que seu lindo sorriso
+        não estava aparecendo, comentava alguma coisa engraçada, e ficava triste
+        pois mais uma vez alguém havia feito você sentir mal.
+      </p>
+
+      <p>
+        Você me deixou uma marca em nosso primeiro encontro que eu nunca
+        esqueci, no entanto, desde o nosso reencontro neste ano, você se tornou
+        alguém especial pra mim, a chacára só confirmou este sentimento, do
+        fundo de meu coração, meu único sentimento por você é querer estar ao
+        seu lado em todos os momentos, tentar fazer você se sentir especial,
+        assim, como você se tornou especial para mim, mesmo que um dia você
+        venha me falar que não sinta algo do mesmo gênero, eu sempre em todo e
+        qualquer momento vou querer o seu bem, pois pra mim, você é uma pessoa
+        muito importante e especial que gostaria de leva-la para toda a minha
+        vida.
+      </p>
+
+      <button onclick="submit('step2', 'step3')">Vamos lá??</button>
+    </section>
+
+    <section class="frame step3 hidden">
+      <span class="title title2">12 Motivos para você se sentir especial</span>
+      <div class="cardList">
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 1</div>
+
+            <div class="flip-card-back">Seu sorriso é maravilhoso</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 2</div>
+
+            <div class="flip-card-back">A sua alegria é contagiante</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 3</div>
+
+            <div class="flip-card-back">Você é mais madura do que pensa</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 4</div>
+
+            <div class="flip-card-back">Você é gentil e atenciosa</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 5</div>
+
+            <div class="flip-card-back">O seu jeito meigo é fascinante</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 6</div>
+
+            <div class="flip-card-back">O seu jeito bruto é engraçado</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 7</div>
+
+            <div class="flip-card-back">A sua sinceridade me encanta</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 8</div>
+
+            <div class="flip-card-back">Você é uma luz neste mundo escuro</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 9</div>
+
+            <div class="flip-card-back">Conversar com você é reconfortante</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 10</div>
+            <div class="flip-card-back">Você é autêntica e maravilhosa</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 11</div>
+            <div class="flip-card-back">Você é fantastica</div>
+          </div>
+        </div>
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">MOTIVO 12</div>
+            <div class="flip-card-back">I love you</div>
+          </div>
+        </div>
+
+        <div class="heart">
+          <img
+            src="https://img1.picmix.com/output/stamp/thumb/0/2/6/4/1434620_20350.gif"
+          />
+        </div>
+      </div>
+    </section>
+  </body>
+  
+  <audio id="backgroundMusic" loop>
+    <source
+      src="videoplayback.mp3"
+      type="audio/mp3"
+    />
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <script>
+    document
+      .getElementById("playMusic")
+      .addEventListener("click", function () {
+        const music = document.getElementById("backgroundMusic");
+        music.play();
+      });
+  </script>
+
+</html>
